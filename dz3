@@ -1,0 +1,21 @@
+drop table if exists likes;
+create table likes(
+	id serial,
+	user_id bigint unsigned not null,
+	media_id bigint unsigned not null,
+	
+	foreign key (user_id) references users(id),
+	foreign key (media_id) references media(id)
+	
+);
+	
+	
+drop table if exists relations;
+create table ralations(
+	id serial,
+	user_id bigint unsigned not null,
+	status enum('married', 'lonely', 'in love'),
+	
+	foreign key (user_id) references users(id)
+);
+	
