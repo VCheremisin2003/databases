@@ -1,0 +1,28 @@
+1
+update users set
+	updated_at = now(),
+	created_at = now();
+  
+2
+alter table users modify column created_at datetime;
+alter table users modify column updated_at datetime;
+
+3
+
+create table value(number int);
+
+insert into value values (0),(2500),(0),(30),(500),(1)
+
+alter table value add column (qwerty int)
+
+update value set qwerty = 0 where number = 0
+update value set qwerty = 1 where number > 0
+
+select number from value order by qwerty desc, number 
+
+
+4
+select ROUND( avg(floor((TO_DAYS(NOW())-TO_DAYS(birthday))/365.25))) from profiles p 
+
+5
+select birthday, name, (((to_days(birthday - INTERVAL (select SUBSTRING(birthday, 1, 4)) year) + 4) div 7)+1) as week_number from users order by week_number  
