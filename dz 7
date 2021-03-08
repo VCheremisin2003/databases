@@ -1,0 +1,12 @@
+-- №1 
+
+select users.firstname, users.lastname 
+from users left outer join orders
+on users.id = orders.user_id
+where orders.user_id is not null
+
+-- №2
+
+select products.name, catalogs.name
+from products left join catalogs
+on products.catalog_id = catalogs.id
