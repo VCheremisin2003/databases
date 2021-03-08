@@ -1,0 +1,26 @@
+dz 6
+
+--№3
+
+select count(*) as summ, (select gender from profiles where user_id = likes_posts.from_user_id) as gender from likes_posts group by gender order by summ desc limit 1
+
+--№4
+
+select likes_total from 
+	(select 
+	(select count(*) from likes_media where from_user_id = profiles.user_id) as likes_total
+	from profiles
+	order by birthday
+	desc limit 10) as user_likes
+; 
+
+--№5
+
+у меня самые активные пользователи те, кто поставил боьше всего лайков 
+
+select (select firstname from users where users.id = user_likes.user_id), (select lastname from users where users.id = user_likes.user_id) from 
+	(select profiles.user_id, 
+	(select count(*) from likes_media where from_user_id = profiles.user_id) as likes_total
+	from profiles
+	) as user_likes order by likes_total desc limit 10
+; 
