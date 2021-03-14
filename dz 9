@@ -1,1 +1,38 @@
+-- №1
+
+start transaction;
+	insert into sample.users select * from shop.users where id = 1;
+	delete from shop.users where id = 1;
+commit;
+
+-- №2
+
+create or replace view products_catalogs as
+select products.name, catalogs.name
+from products join catalogs
+	on products.catalog_id = catalogs.id
+
+-- №3
+
+DELIMITER //
+
+
+create function hello()
+returns tinytext no SQL 
+BEGIN 	
+	declare hour int;
+	set hour = HOUR(now());
+	case
+		when hour between 0 and 5 THEN 
+			return "доброй ночи";
+		when hour between 6 and 11 THEN 
+			return "доброе утро";
+		when hour between 12 and 17 THEN 
+			return "добрый день";
+		when hour between 18 and 23 THEN 
+			return "добрый вечер";
+	end case;
+end//
+
+DELIMITER ;
 
