@@ -1,0 +1,110 @@
+drop table if exists users;
+create table users(
+	id serial,
+	firstname varchar(100),
+	lastname varchar(100),
+	phone bigint unsigned unique,
+	created_at datetime default now(),
+	updated_at datetime on update now()
+);
+
+drop table if exists profiles;
+create table profiles(
+	user_id bigint unsigned not null,
+	gender varchar(100),
+	hometown varchar(100),
+	email varchar(100) unique,
+	photo varchar(250),
+	created_at datetime default now(),
+	updated_at datetime on update now(),
+	
+	foreign key (user_id) references users(id)
+);
+
+drop table if exists bank_account_types;
+create table bank_account_types(
+	id tinyint unsigned not null primary key,
+	type varchar(100)
+);
+
+drop table if exists bank_accounts;
+create table bank_accounts(
+	id serial,
+	card_number bigint unsigned not null,
+	bank_account_type tinyint unsigned not null,
+	amount_of_money float unsigned not null,
+	created_at datetime default now(),
+	updated_at datetime on update now(),
+	
+	foreign key (bank_account_type) references bank_account_types(id)
+);
+
+drop table if exists company_types;
+create table company_types(
+	id tinyint unsigned not null primary key,
+	type varchar(100)
+);
+
+drop table if exists sberthanks_status_type;
+create table sberthanks_status_type(
+	id tinyint unsigned not null primary key,
+	status_type varchar(100)
+);
+
+drop table if exists companies;
+create table companies(
+	id serial,
+	company_type tinyint unsigned not null,
+	name varchar(100),
+	sberthanks_status tinyint unsigned not null,
+	created_at datetime default now(),
+	updated_at datetime on update now(),
+	
+	foreign key (company_type) references company_types(id),
+	foreign key (sberthanks_status) references sberthanks_status_type(id)
+);
+
+
+drop table if exists companies_bank_accounts;
+create table companies_bank_accounts(
+	company_id bigint unsigned not null,
+	bank_account_id bigint unsigned not null,
+	
+	foreign key (company_id) references companies(id),
+	foreign key (bank_account_id) references bank_accounts(id)
+);
+
+drop table if exists users_bank_accounts;
+create table users_bank_accounts(
+	user_id bigint unsigned not null,
+	bank_account_id bigint unsigned not null,
+	
+	foreign key (user_id) references users(id),
+	foreign key (bank_account_id) references bank_accounts(id)
+);
+
+drop table if exists messages;
+create table messages(
+	id serial,
+	from_user_id bigint unsigned not null,
+	to_user_id bigint unsigned not null,
+	body text,
+	created_at datetime default now(),
+	updated_at datetime on update now(),
+	
+	foreign key (from_user_id) references users(id),
+	foreign key (to_user_id) references users(id)
+);
+
+drop table if exists transfers;
+create table transfers(
+	id serial,
+	from_bank_account_id bigint unsigned not null,
+	to_bank_account_id bigint unsigned not null,
+	amount_of_money text,
+	created_at datetime default now(),
+	updated_at datetime on update now(),
+	
+	foreign key (from_bank_account_id) references bank_accounts(id),
+	foreign key (to_bank_account_id) references bank_accounts(id)
+);
