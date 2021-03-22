@@ -1,0 +1,25 @@
+create table Logs(
+	id int unsigned not null auto_increment primary key,
+	created_at datetime default now(),
+	table_name varhar(100) not null,
+	row_id int unsigned not null,
+	row_name varchar(200)
+);
+
+create trigger product_insert after insert on products
+for each rows
+begin
+	insert into Logs values(null, default, "products", new.id, new.name);
+end;
+
+create trigger users_insert after insert on users
+for each rows
+begin
+	insert into Logs values(null, default, "users", new.id, new.name);
+end;
+
+create trigger catalogs_insert after insert on catalogs
+for each rows
+begin
+	insert into Logs values(null, default, "catalogs", new.id, new.name);
+end;
